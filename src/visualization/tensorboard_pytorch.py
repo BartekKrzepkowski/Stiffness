@@ -42,14 +42,13 @@ class TensorboardPyTorch:
         self.flush()
         
     def log_figures(self, images, global_step):
-        # for tag in images:
-        #     wandb.log({'heatmap_with_text': wandb.plots.HeatMap('x', 'y', images[tag], show_text=False)}, step=global_step)
         for tag in images:
             self.writer.add_figure(tag, images[tag], global_step=global_step)
         self.flush()
 
-    def log_histogram(self, tag, tensor, global_step): # problem with numpy=1.24.0
-        self.writer.add_histogram(tag, tensor, global_step=global_step)
+    def log_histogram(self, values, global_step): # problem with numpy=1.24.0
+        for tag in values:
+            self.writer.add_histogram(tag, values[tag], global_step=global_step)
         self.flush()
 
     def log_scalars(self, scalar_dict, global_step):

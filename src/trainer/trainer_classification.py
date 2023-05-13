@@ -121,7 +121,7 @@ class TrainerClassification:
                         step_assets['evaluators']['grad_norm_squared'] = norm ** 2
                 loss *= config.grad_accum_steps
                 if self.global_step % (config.grad_accum_steps * config.stiff_multi) == 0:
-                    self.stiffness.run_stiffness(self.global_step)
+                    self.stiffness.log_stiffness(self.global_step)
 
             ### LOGGING ###
             running_assets = self.update_assets(running_assets, step_assets, step_assets['denom'], 'running', phase)

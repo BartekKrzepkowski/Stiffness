@@ -19,14 +19,14 @@ def objective(batch_size, lr, width, model_name):
     # model
     NUM_FEATURES = 3
     NUM_CLASSES = 10
-    N = 2
+    N = 1
     DIMS = [NUM_FEATURES] + [width] * (N + 1) + [128, NUM_CLASSES]
     CONV_PARAMS = {'img_height': 32, 'img_widht': 32, 'kernels': [3, 3] * (N + 1), 'strides': [1, 1] * (N + 1), 'paddings': [1, 1] * (N + 1), 'whether_pooling': [False, True] * (N + 1)}
     # trainer & schedule
     RANDOM_SEED = 83
-    EPOCHS = 100
+    EPOCHS = 150
     GRAD_ACCUM_STEPS = 1
-    CLIP_VALUE = 0.0
+    CLIP_VALUE = 100.0
 
     # prepare params
     type_names = {
@@ -79,7 +79,7 @@ def objective(batch_size, lr, width, model_name):
         'loaders': loaders,
         'optim': optim,
         'lr_scheduler': lr_scheduler,
-        'extra': {'x_data': x_data, 'y_data': y_data, 'num_classes': NUM_CLASSES},
+        'extra': {'x_true1': x_data, 'y_true1': y_data, 'num_classes': NUM_CLASSES},
     }
     trainer = TrainerClassification(**params_trainer)
 
@@ -108,7 +108,7 @@ def objective(batch_size, lr, width, model_name):
 
 
 if __name__ == "__main__":
-    for lr in [1e-2, 1e-1]:
+    for lr in [1e-1]:
         for width in [96, 256]:
             for model_name in ['simple_cnn']:#, 'simple_cnn_with_bnorm_and_dropout']:
                 objective(200, lr, width, model_name)
